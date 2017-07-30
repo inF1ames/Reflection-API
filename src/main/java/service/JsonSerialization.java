@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class JsonSerialization {
     private Map<String, Object> fields = new HashMap<>();
-    private StringBuilder json = new StringBuilder("{");
 
     public String toJson(Object object) {
         Field[] declaredFields = object.getClass().getDeclaredFields();
@@ -19,7 +18,7 @@ public class JsonSerialization {
             declaredField.setAccessible(true);
             try {
                 if (declaredField.get(object) != null)
-                addElement(declaredField, object);
+                    addElement(declaredField, object);
                 declaredField.setAccessible(false);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -42,12 +41,12 @@ public class JsonSerialization {
     }
 
     private String getString() {
+        StringBuilder json = new StringBuilder("{");
         int elementsCount = 0;
         for (Map.Entry<String, Object> objectEntry : fields.entrySet()) {
             json.append("\"")
                     .append(objectEntry.getKey())
-                    .append("\":")
-                    .append("\"")
+                    .append("\":\"")
                     .append(objectEntry.getValue());
             if (elementsCount != fields.size() - 1) {
                 json.append("\",");
@@ -56,6 +55,7 @@ public class JsonSerialization {
             }
             elementsCount++;
         }
+        fields.clear();
         return json.toString();
     }
 

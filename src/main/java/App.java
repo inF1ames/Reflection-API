@@ -7,11 +7,13 @@ public class App {
         JsonSerialization json = new JsonSerialization();
         Human human = new Human();
         human.setFirstName("Bob");
-        human.setLastName(null);
-        human.setHobby("football");
+        human.setLastName("Sponge");
+        human.setHobby(null);
         human.setBirthDate(LocalDate.of(1996, Month.APRIL, 13));
+
 
         String s = json.toJson(human);
         System.out.println(s);
+
     }
 }
